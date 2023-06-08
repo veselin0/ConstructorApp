@@ -203,27 +203,9 @@ fun RoundedCornersBoxesScrollableColumn() {
             .verticalScroll(rememberScrollState())
     ) {
         var titles = listOf(
-            "Business",
-            "Personal",
-            "Other",
-            "Gocho",
-            "Bocho",
-            "Docho",
-            "Cocodrillo",
-            "Bestia",
-            "Zorro",
-            "Gyuro",
-            "Business",
-            "Personal",
-            "Other",
-            "Gocho",
-            "Bocho",
-            "Docho",
-            "Cocodrillo",
-            "Bestia",
-            "Zorro",
-            "Gyuro",
-            "Perro"
+            "Business Text Holder",
+            "Personal Text Holder",
+            "Other Text Holder",
         )
         val myCheckBoxOptions =
             getCheckBoxOptions(titles)
