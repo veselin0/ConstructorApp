@@ -38,6 +38,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.constructorapp.ui.theme.ConstructorAppTheme
+import com.example.constructorapp.CheckBoxParameters
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,13 +60,27 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
+fun getColorForTitle(title: String): Color {
+    return when (title) {
+        "Business Text Holder" -> Colors.businessColor
+        "Personal Text Holder" -> Colors.personalColor
+        "Other Text Holder" -> Colors.otherColor
+        else -> Colors.appBackgroundColor
+    }
+}
+
+@Composable
 fun getCheckBoxOptions(titles: List<String>): List<CheckBoxParameters> {
-    return titles.map { it ->
+    return titles.map { title ->
         var stateOfCheckBoxParameters by rememberSaveable { mutableStateOf(false) }
+        val checkedColor = getColorForTitle(title)
+        val uncheckedColor = getColorForTitle(title)
         CheckBoxParameters(
-            title = it,
+            title = title,
             isChecked = stateOfCheckBoxParameters,
-            onCheckedChanged = { stateOfCheckBoxParameters = it }
+            onCheckedChanged = { stateOfCheckBoxParameters = it },
+            checkedColor = checkedColor,
+            uncheckedColor = uncheckedColor
         )
     }
 }
@@ -140,8 +155,8 @@ fun RoundedCornersBoxTasks(checkBoxParameters: CheckBoxParameters) {
                 onCheckedChange = { checkBoxParameters.onCheckedChanged(!checkBoxParameters.isChecked) },
                 enabled = true,
                 colors = CheckboxDefaults.colors(
-                    checkedColor = Color.Green, // Color for checked state
-                    uncheckedColor = Color.Green // Color for unchecked state
+                    checkedColor = checkBoxParameters.checkedColor,
+                    uncheckedColor = checkBoxParameters.checkedColor
                 )
             )
             Text(
@@ -154,27 +169,6 @@ fun RoundedCornersBoxTasks(checkBoxParameters: CheckBoxParameters) {
         }
     }
     Spacer(modifier = Modifier.height(16.dp))
-}
-
-@Composable
-fun CheckBoxToggle(checkBoxParameters: CheckBoxParameters) {
-
-    Row(
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Checkbox(
-            checked = checkBoxParameters.isChecked,
-            onCheckedChange = { checkBoxParameters.onCheckedChanged(!checkBoxParameters.isChecked) },
-            enabled = true,
-            colors = CheckboxDefaults.colors(
-                checkedColor = Color.Green,
-                uncheckedColor = Color.Green,
-                checkmarkColor = Color.Black
-            ),
-            modifier = Modifier.padding(end = 8.dp)
-        )
-        Text(text = checkBoxParameters.title)
-    }
 }
 
 @Composable
